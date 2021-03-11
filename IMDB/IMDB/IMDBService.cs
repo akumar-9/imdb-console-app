@@ -18,18 +18,24 @@ namespace IMDB
         public void AddActor(string name, string dob)
         {
             if (String.IsNullOrEmpty(name.Trim()) || String.IsNullOrEmpty(dob.Trim()))
-                throw new ArgumentNullException("Please enter a valid name or DOB");
+            {
+                Console.WriteLine("Please enter a valid name or DOB");
+                return;
+            }
+            
             DateTime date;
             if (DateTime.TryParse(dob, out date))
             {
-                if (date.Year < 2010)
+                if (date.Year > 2010)
                 {
-                    throw new ArgumentOutOfRangeException("YOB Cant be greater than current year ");
+                    Console.WriteLine("YOB Cant be greater than current year ");
+                    return;
                 }
             }
             else
             {
-                throw new ArgumentException("enter valid DOB");
+                Console.WriteLine("enter valid DOB");
+                return;
             }
             var person = new Person(name, dob);
             _actorRepository.Add(person);
@@ -38,18 +44,23 @@ namespace IMDB
         public void AddProducer(string name, string dob)
         {
             if (String.IsNullOrEmpty(name.Trim()) || String.IsNullOrEmpty(dob.Trim()))
-                throw new ArgumentNullException("Please enter a valid name or DOB");
+            {
+                 Console.WriteLine("Please enter a valid name or DOB");
+                return;
+            }
             DateTime date;
             if (DateTime.TryParse(dob, out date))
             {
                 if (date.Year.CompareTo(DateTime.Today.Year) > 0)
                 {
-                    throw new ArgumentOutOfRangeException("YOB Cant be greater than current year ");
+                    Console.WriteLine("YOB Cant be greater than current year ");
+                    return;
                 }
             }
             else
             {
-                throw new ArgumentException("enter valid DOB");
+                Console.WriteLine("enter valid DOB");
+                return;
             }
             var person = new Person(name, dob);
             _producerRepository.Add(person);
@@ -57,52 +68,86 @@ namespace IMDB
         public void AddMovie(string name, int year, string plot)
         {
             if (String.IsNullOrEmpty(name.Trim()) || year < 1870 || String.IsNullOrEmpty(plot.Trim()))
-                throw new ArgumentException(" Enter valid name, year or plot");
+            {
+                Console.WriteLine(" Enter valid name, year or plot");
+                return;
+            }
+               
             else
             {
                 var movie = new Movie(name, year, plot);
-                ChooseActors(movie);
-                ChooseProducer(movie);
-                _movieRepository.Add(movie);
+                if (ChooseActors(movie))
+                    if(ChooseProducer(movie))
+                    _movieRepository.Add(movie);
             }
         }
-        public void ChooseActors(Movie movie)
+        public bool ChooseActors(Movie movie)
         {
             var actors = _actorRepository.Get();
-            Console.WriteLine("Choose actors" );
-            for( var i = 0; i < actors.Count; i++)
+            if (actors.Count > 0)
             {
-                Console.WriteLine($"{i + 1}. {actors[i].Name}");
-            }
+                Console.WriteLine("Choose actors ...");
+                for (var i = 0; i < actors.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {actors[i].Name}");
+                }
 
-            string[] tokens = Console.ReadLine().Split(' ');
-            int[] nums = Array.ConvertAll(tokens, int.Parse);
-            if (nums.Length < 1)
-                throw new ArgumentOutOfRangeException("There should be atleast one actor!");
-            foreach(var num in nums)
-            {
-                
-                movie.Actors.Add(actors[num - 1]);
+                var tokens = Console.ReadLine().Split(' ');
+                var nums = Array.ConvertAll(tokens, int.Parse);
+                if (nums.Length < 1)
+                {
+                    Console.WriteLine("There should be atleast one actor!!");
+                    return false;
+                }
+
+                else
+                {
+                    foreach (var num in nums)
+                    {
+                        if (Convert.ToDateTime(actors[num - 1].DOB).Year < movie.YearOfRelease)
+                            movie.Actors.Add(actors[num - 1]);
+                        else
+                        {
+                            Console.WriteLine("Actor is not born yet!!");
+                            return false;
+                        }
+                    }
+                }
             }
+            else
+            {
+                Console.WriteLine("Add Actors First!!");
+                return false;
+            }
+            return true;
         }
-        public void ChooseProducer(Movie movie)
+        public bool ChooseProducer(Movie movie)
         {
             var producers = _producerRepository.Get();
-            for (var i = 0; i < producers.Count; i++)
+            if (producers.Count > 0)
+
             {
-                Console.WriteLine($"{i + 1}. {producers[i].Name}\n");
+                Console.WriteLine("Choose ONLY 1 producer ...");
+                for (var i = 0; i < producers.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {producers[i].Name}\n");
+                }
+
+                var choice = Convert.ToInt32(Console.ReadLine());
+                if (Convert.ToDateTime(producers[choice - 1].DOB).Year < movie.YearOfRelease)
+                    movie.Producer = producers[choice - 1];
+                else
+                {
+                    Console.WriteLine("Producer is not born yet!!");
+                    return false;
+                }
             }
-
-            string[] tokens = Console.ReadLine().Split(' ');
-            int[] nums = Array.ConvertAll(tokens, int.Parse);
-            if (nums.Length > 1)
-                throw new ArgumentOutOfRangeException("There can be atmost one producer!");
-           
-           else 
-                movie.Producer = producers[nums[0] - 1];
-
-           
-            
+            else
+            {
+                Console.WriteLine("Add Producers first!!");
+                return false;
+            }
+            return true;
         }
         public void ListMovies()
         {
@@ -116,11 +161,11 @@ namespace IMDB
                 Console.Write("Actors - ");
                 foreach(var movieActor in movies[i].Actors)
                 {
-                    Console.Write(movieActor.Name + ","); 
+                    Console.Write(movieActor.Name + "  "); 
 
                 }
-                Console.WriteLine("Producers - " + movies[i].Producer.Name);
-                Console.WriteLine("\n");
+
+                Console.WriteLine("\nProducers - " + movies[i].Producer.Name + " \n\n");
             }
         }
         public void DeleteMovie()
