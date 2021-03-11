@@ -103,7 +103,11 @@ namespace IMDB
                 else
                 {
                     foreach (var num in nums)
-                    {
+                    {   if ( num > actors.Count)
+                        {
+                            Console.WriteLine("choose a valid input);
+                            return false;
+                        }
                         if (Convert.ToDateTime(actors[num - 1].DOB).Year < movie.YearOfRelease)
                             movie.Actors.Add(actors[num - 1]);
                         else
@@ -133,7 +137,13 @@ namespace IMDB
                     Console.WriteLine($"{i + 1}. {producers[i].Name}\n");
                 }
 
-                var choice = Convert.ToInt32(Console.ReadLine());
+                var choice = Convert.ToInt32(Console.ReadLine()[0]);
+                if ( choice > producers.Count)
+                {
+                    Console.WriteLine("Choose a valid input");
+                    return false;
+                }
+
                 if (Convert.ToDateTime(producers[choice - 1].DOB).Year < movie.YearOfRelease)
                     movie.Producer = producers[choice - 1];
                 else
@@ -144,7 +154,7 @@ namespace IMDB
             }
             else
             {
-                Console.WriteLine("Add Producers first!!");
+                Console.WriteLine("Add Producers !!");
                 return false;
             }
             return true;
