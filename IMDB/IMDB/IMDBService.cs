@@ -135,7 +135,7 @@ namespace IMDB
 
         public Person GetProducer(int producerId)
         {
-                var producers = GetProducers();
+                var producers = _producerRepository.Get();
                 return producers[producerId - 1];
         }
 

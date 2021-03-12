@@ -24,7 +24,7 @@ Scenario: Adding a producer to repository
 Scenario: Adding Movie
 	Given I have a moviename "Ford V Ferrari"
 	And The year of release is "2019"
-	And The plot is " blah blah"
+	And The plot is "blah blah"
 	And the movie has actor "1"
 	And The movie has producer "1"
 	When I add the movie
@@ -33,7 +33,22 @@ Scenario: Adding Movie
 	| Ford V Ferrari | 2019          | blah blah |
 	And the movieactor is as
 	| Name       | DOB        |
-	| Matt Damon | 10-08-1970 |
+	| Matt Damon | 08-10-1970 |
 	And the movieproducer is as
 	| Name          | DOB        |
-	| James Mangold | 12-16-1963 |
+	| James Mangold | 08-10-1970 |
+
+@ListMovie
+Scenario: Showing Movie
+	Given I hace a moive repository
+	When I fetch my movies
+	Then The results shouble be
+	| Name           | YearOfRelease | Plot      | 
+	| Ford V Ferrari | 2019          | blah blah |
+	And the movieactor is as
+	| Name       | DOB        |
+	| Matt Damon | 08-10-1970 |
+	And the movieproducer is as
+	| Name          | DOB        |
+	| James Mangold | 08-10-1970 |
+
