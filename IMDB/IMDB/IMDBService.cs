@@ -1,11 +1,12 @@
 ﻿using IMDB.Domain;
 using IMDB.Repository.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace IMDB
 {
-    class IMDBService
+   public class IMDBService
     {   private readonly ActorRepository _actorRepository;
         private readonly ProducerRepository _producerRepository;
         private readonly MovieRepository _movieRepository;
@@ -26,9 +27,9 @@ namespace IMDB
             DateTime date;
             if (DateTime.TryParse(dob, out date))
             {
-                if (date.Year > 2010)
+                if (date.Year > DateTime.Now.Year - 10)
                 {
-                    Console.WriteLine("YOB Cant be greater than current year ");
+                    Console.WriteLine("The Actor should be 10 years atleast ");
                     return;
                 }
             }
@@ -83,7 +84,7 @@ namespace IMDB
         }
         public bool ChooseActors(Movie movie)
         {
-            var actors = _actorRepository.Get();
+            var actors = GetActors(); 
             if (actors.Count > 0)
             {
                 Console.WriteLine("Choose actors ...");
@@ -105,7 +106,7 @@ namespace IMDB
                     foreach (var num in nums)
                     {   if ( num > actors.Count)
                         {
-                            Console.WriteLine("choose a valid input);
+                            Console.WriteLine("choose a valid input");
                             return false;
                         }
                         if (Convert.ToDateTime(actors[num - 1].DOB).Year < movie.YearOfRelease)
@@ -125,9 +126,14 @@ namespace IMDB
             }
             return true;
         }
+
+        public List<Person> GetActors()
+        {
+           return _actorRepository.Get();
+        }
         public bool ChooseProducer(Movie movie)
         {
-            var producers = _producerRepository.Get();
+            var producers = GetProducers();
             if (producers.Count > 0)
 
             {
@@ -159,10 +165,20 @@ namespace IMDB
             }
             return true;
         }
+
+        public List<Person> GetProducers()
+        {
+            return _producerRepository.Get();
+        }
         public void ListMovies()
         {
             var movies = _movieRepository.Get();
-
+            if(movies.Count < 1)
+            {
+                Console.WriteLine("Add Movies before displaying them");
+                return;
+            }
+            else
             for (var i = 0; i < movies.Count; i++)
             {
                 Console.WriteLine(i+1);
@@ -170,11 +186,7 @@ namespace IMDB
                 Console.WriteLine($"Plot - {movies[i].Plot}");
                 Console.Write("Actors - ");
                 foreach(var movieActor in movies[i].Actors)
-                {
                     Console.Write(movieActor.Name + "  "); 
-
-                }
-
                 Console.WriteLine("\nProducers - " + movies[i].Producer.Name + " \n\n");
             }
         }

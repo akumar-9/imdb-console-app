@@ -37,14 +37,14 @@ namespace IMDB
                 case "3":
                     Console.Write("Name:");
                     string actorname = Console.ReadLine();
-                    Console.WriteLine("Date of Birth:");
+                    Console.WriteLine("Date of Birth(mm-dd-yyyy):");
                     string dob = Console.ReadLine();
                     imdbService.AddActor(actorname, dob);
                     return true;
                 case "4":
                     Console.Write("Name:");
                     string producername = Console.ReadLine();
-                    Console.WriteLine("Date of Birth:");
+                    Console.WriteLine("Date of Birth(mm-dd-yyyy):");
                     string pdob = Console.ReadLine();
                     imdbService.AddProducer(producername, pdob);
                     return true;
