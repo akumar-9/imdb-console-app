@@ -18,6 +18,8 @@ namespace IMDB.Tests
         private string _movieName;
         private int _year;
         private string _plot;
+        private string _actingIds;
+        private int _producerId;
         private IMDBService _imdbService = new IMDBService();
 
     
@@ -94,39 +96,46 @@ namespace IMDB.Tests
         }
 
         [Given(@"the movie has actor ""(.*)""")]
-        public void GivenTheMovieHasActor(int actorChoice)
+        public void GivenTheMovieHasActor(string actorIds)
         {
-            ScenarioContext.Current.Pending();
+             _actingIds = actorIds;
         }
 
         [Given(@"The movie has producer ""(.*)""")]
-        public void GivenTheMovieHasProducer(int p0)
+        public void GivenTheMovieHasProducer(int producerId)
         {
-            ScenarioContext.Current.Pending();
+            _producerId = producerId;
         }
 
         [When(@"I add the movie")]
         public void WhenIAddTheMovie()
         {
-            ScenarioContext.Current.Pending();
+            _imdbService.AddMovie(_movieName, _year, _plot, _actingIds, _producerId);
         }
 
         [Then(@"the movie list should be")]
         public void ThenTheMovieListShouldBe(Table table)
         {
-            ScenarioContext.Current.Pending();
+            var movieList = _imdbService.GetMovies();
+            table.CompareToSet(movieList);
         }
 
         [Then(@"the movieactor is as")]
         public void ThenTheMovieactorIsAs(Table table)
         {
-            ScenarioContext.Current.Pending();
+            //var movieList = _imdbService.GetMovies();
+            //var actingList=new List<Person>();
+            
+            
+            //    actingList = movie.Actors;
+            
+            //table.CompareToSet(actingList);
         }
 
         [Then(@"the movieproducer is as")]
         public void ThenTheMovieproducerIsAs(Table table)
         {
-            ScenarioContext.Current.Pending();
+          
         }
 
 

@@ -10,6 +10,7 @@ namespace IMDB
 
             var imdbService = new IMDBService();
             var showMenu = true;
+            
             while (showMenu)
                 showMenu = MainMenu(imdbService);
         }
@@ -26,13 +27,35 @@ namespace IMDB
                     imdbService.ListMovies();
                     return true;
                 case "2":
+                    var actorsCount = imdbService.GetActors().Count;
+                    var producersCount = imdbService.GetProducers().Count;
+                    if (actorsCount < 1)
+                    {
+                        Console.WriteLine("Add Actors into the list first!!");
+                        return true;
+                    }
+                    if (producersCount < 1)
+                    {
+                        Console.WriteLine("Add Producers into the list first!!");
+                        return true;
+                    }
                     Console.Write("Name:");
                     string name = Console.ReadLine();
                     Console.WriteLine("Year of Release:");
                     int yor = Convert.ToInt32( Console.ReadLine());
                     Console.WriteLine("Plot:");
                     string plot = Console.ReadLine();
-                    imdbService.AddMovie(name,yor,plot);
+                   
+                    
+                    Console.WriteLine("Choose Actors...");
+                    imdbService.DisplayPersons(imdbService.GetActors());
+                    string actorIds = Console.ReadLine();
+                    
+                    
+                    Console.WriteLine("Choose Producers...");
+                    imdbService.DisplayPersons(imdbService.GetProducers());
+                    int producerId = Convert.ToInt32(Console.ReadLine());
+                    imdbService.AddMovie(name,yor,plot,actorIds,producerId);
                     return true;
                 case "3":
                     Console.Write("Name:");

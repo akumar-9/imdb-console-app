@@ -215,16 +215,51 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 25
- testRunner.Given("I have a moviename", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I have a moviename \"Ford V Ferrari\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 26
- testRunner.And("the second number is 70", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The year of release is \"2019\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 27
- testRunner.When("the two numbers are added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("The plot is \" blah blah\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 28
- testRunner.Then("the result should be 120", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("the movie has actor \"1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 29
+ testRunner.And("The movie has producer \"1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 30
+ testRunner.When("I add the movie", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Name",
+                            "YearOfRelease",
+                            "Plot"});
+                table3.AddRow(new string[] {
+                            "Ford V Ferrari",
+                            "2019",
+                            "blah blah"});
+#line 31
+ testRunner.Then("the movie list should be", ((string)(null)), table3, "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Name",
+                            "DOB"});
+                table4.AddRow(new string[] {
+                            "Matt Damon",
+                            "10-08-1970"});
+#line 34
+ testRunner.And("the movieactor is as", ((string)(null)), table4, "And ");
+#line hidden
+                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Name",
+                            "DOB"});
+                table5.AddRow(new string[] {
+                            "James Mangold",
+                            "12-16-1963"});
+#line 37
+ testRunner.And("the movieproducer is as", ((string)(null)), table5, "And ");
 #line hidden
             }
             this.ScenarioCleanup();

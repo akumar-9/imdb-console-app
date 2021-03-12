@@ -27,6 +27,7 @@ namespace IMDB
             DateTime date;
             if (DateTime.TryParse(dob, out date))
             {
+               
                 if (date.Year > DateTime.Now.Year - 10)
                 {
                     Console.WriteLine("The Actor should be 10 years atleast ");
@@ -35,6 +36,7 @@ namespace IMDB
             }
             else
             {
+                
                 Console.WriteLine("enter valid DOB");
                 return;
             }
@@ -66,7 +68,7 @@ namespace IMDB
             var person = new Person(name, dob);
             _producerRepository.Add(person);
         }
-        public void AddMovie(string name, int year, string plot)
+        public void AddMovie(string name, int year, string plot, string actorIds, int producerId)
         {
             if (String.IsNullOrEmpty(name.Trim()) || year < 1870 || String.IsNullOrEmpty(plot.Trim()))
             {
@@ -76,106 +78,77 @@ namespace IMDB
                
             else
             {
-                var movie = new Movie(name, year, plot);
-                if (ChooseActors(movie))
-                    if(ChooseProducer(movie))
-                    _movieRepository.Add(movie);
+                var movie = new Movie
+                {
+                    Name = name,
+                    YearOfRelease = year,
+                    Plot = plot,
+                    Actors = GetActors(actorIds),
+                    Producer = GetProducer(producerId)
+                };
+                _movieRepository.Add(movie);
             }
         }
-        public bool ChooseActors(Movie movie)
-        {
-            var actors = GetActors(); 
-            if (actors.Count > 0)
-            {
-                Console.WriteLine("Choose actors ...");
-                for (var i = 0; i < actors.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {actors[i].Name}");
-                }
-
-                var tokens = Console.ReadLine().Split(' ');
-                var nums = Array.ConvertAll(tokens, int.Parse);
-                if (nums.Length < 1)
-                {
-                    Console.WriteLine("There should be atleast one actor!!");
-                    return false;
-                }
-
-                else
-                {
-                    foreach (var num in nums)
-                    {   if ( num > actors.Count)
-                        {
-                            Console.WriteLine("choose a valid input");
-                            return false;
-                        }
-                        if (Convert.ToDateTime(actors[num - 1].DOB).Year < movie.YearOfRelease)
-                            movie.Actors.Add(actors[num - 1]);
-                        else
-                        {
-                            Console.WriteLine("Actor is not born yet!!");
-                            return false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("Add Actors First!!");
-                return false;
-            }
-            return true;
-        }
+       
 
         public List<Person> GetActors()
         {
            return _actorRepository.Get();
         }
-        public bool ChooseProducer(Movie movie)
+        public List<Person> GetActors(string actorIds)
         {
-            var producers = GetProducers();
-            if (producers.Count > 0)
-
+            var actors = _actorRepository.Get();
+            var movieActors = new List<Person>();
+            var tokens =actorIds.Split(' ');
+            var ids = Array.ConvertAll(tokens, int.Parse);
+            if (actors.Count > 0)
             {
-                Console.WriteLine("Choose ONLY 1 producer ...");
-                for (var i = 0; i < producers.Count; i++)
+                if (ids.Length < 1)
                 {
-                    Console.WriteLine($"{i + 1}. {producers[i].Name}\n");
+                    Console.WriteLine("There should be atleast one actor!!");
                 }
-
-                var choice = Convert.ToInt32(Console.ReadLine()[0]);
-                if ( choice > producers.Count)
-                {
-                    Console.WriteLine("Choose a valid input");
-                    return false;
-                }
-
-                if (Convert.ToDateTime(producers[choice - 1].DOB).Year < movie.YearOfRelease)
-                    movie.Producer = producers[choice - 1];
                 else
                 {
-                    Console.WriteLine("Producer is not born yet!!");
-                    return false;
-                }
+                    foreach (var id in ids)
+                    {
+                        if (id > actors.Count)
+                        {
+                            Console.WriteLine("choose a valid input");
+                        }
+
+                        movieActors.Add(actors[id - 1]);
+
+                    }
+                }  
             }
             else
             {
-                Console.WriteLine("Add Producers !!");
-                return false;
+                Console.WriteLine("Add Actors first!!");
             }
-            return true;
+            return movieActors.ToList();
         }
-
+        
         public List<Person> GetProducers()
         {
             return _producerRepository.Get();
         }
+
+        public Person GetProducer(int producerId)
+        {
+                var producers = GetProducers();
+                return producers[producerId - 1];
+        }
+
+        public List<Movie> GetMovies()
+        {
+           return _movieRepository.Get();
+        }
         public void ListMovies()
         {
-            var movies = _movieRepository.Get();
+            var movies = GetMovies();
             if(movies.Count < 1)
             {
-                Console.WriteLine("Add Movies before displaying them");
+                Console.WriteLine("Add Movies First");
                 return;
             }
             else
@@ -193,8 +166,18 @@ namespace IMDB
         public void DeleteMovie()
         {
             Console.WriteLine("Choose the movie to delete");
+            
             ListMovies();
             _movieRepository.Delete(Convert.ToInt32(Console.ReadLine()) - 1);
+        }
+
+        public void DisplayPersons(List<Person> personsList)
+        {
+
+           for (var i = 0; i < personsList.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {personsList[i].Name}");
+            }
         }
     }
 }
