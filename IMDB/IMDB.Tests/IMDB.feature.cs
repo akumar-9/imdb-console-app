@@ -166,7 +166,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the producer name is  \"James Mangold\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 16
- testRunner.And("the prodcuer date of birth is \"12-16-1963\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the prodcuer date of birth is \"16-12-1963\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 17
  testRunner.When("the producer is added", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -176,7 +176,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "DOB"});
                 table2.AddRow(new string[] {
                             "James Mangold",
-                            "12-16-1963"});
+                            "16-12-1963"});
 #line 18
     testRunner.Then("the producer list should be", ((string)(null)), table2, "Then ");
 #line hidden
@@ -221,10 +221,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("The year of release is \"2019\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 27
- testRunner.And("The plot is \"blah blah\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The plot is \"vroom vroom yay yay\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 28
- testRunner.And("the movie has actor \"1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the movie has actor \"1 2\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 29
  testRunner.And("The movie has producer \"1\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -239,7 +239,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table3.AddRow(new string[] {
                             "Ford V Ferrari",
                             "2019",
-                            "blah blah"});
+                            "vroom vroom yay yay"});
 #line 31
  testRunner.Then("the movie list should be", ((string)(null)), table3, "Then ");
 #line hidden
@@ -249,6 +249,9 @@ this.ScenarioInitialize(scenarioInfo);
                 table4.AddRow(new string[] {
                             "Matt Damon",
                             "08-10-1970"});
+                table4.AddRow(new string[] {
+                            "Christian Bale",
+                            "30-01-1974"});
 #line 34
  testRunner.And("the movieactor is as", ((string)(null)), table4, "And ");
 #line hidden
@@ -257,8 +260,8 @@ this.ScenarioInitialize(scenarioInfo);
                             "DOB"});
                 table5.AddRow(new string[] {
                             "James Mangold",
-                            "08-10-1970"});
-#line 37
+                            "16-12-1963"});
+#line 39
  testRunner.And("the movieproducer is as", ((string)(null)), table5, "And ");
 #line hidden
             }
@@ -275,7 +278,7 @@ this.ScenarioInitialize(scenarioInfo);
                     "ListMovie"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Showing Movie", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 42
+#line 44
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -295,10 +298,10 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 43
+#line 45
  testRunner.Given("I hace a moive repository", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 44
+#line 46
  testRunner.When("I fetch my movies", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
                 TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
@@ -308,8 +311,12 @@ this.ScenarioInitialize(scenarioInfo);
                 table6.AddRow(new string[] {
                             "Ford V Ferrari",
                             "2019",
-                            "blah blah"});
-#line 45
+                            "vroom vroom yay yay"});
+                table6.AddRow(new string[] {
+                            "Hobbs and Shaw",
+                            "2019",
+                            "vroom vroom bang bang"});
+#line 47
  testRunner.Then("The results shouble be", ((string)(null)), table6, "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
@@ -318,7 +325,16 @@ this.ScenarioInitialize(scenarioInfo);
                 table7.AddRow(new string[] {
                             "Matt Damon",
                             "08-10-1970"});
-#line 48
+                table7.AddRow(new string[] {
+                            "Christian Bale",
+                            "30-01-1974"});
+                table7.AddRow(new string[] {
+                            "Dwayne Johnson",
+                            "02-05-1972"});
+                table7.AddRow(new string[] {
+                            "Jason Statham",
+                            "26-07-1967"});
+#line 51
  testRunner.And("the movieactor is as", ((string)(null)), table7, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
@@ -326,8 +342,11 @@ this.ScenarioInitialize(scenarioInfo);
                             "DOB"});
                 table8.AddRow(new string[] {
                             "James Mangold",
-                            "08-10-1970"});
-#line 51
+                            "16-12-1963"});
+                table8.AddRow(new string[] {
+                            "Chris Morgan",
+                            "24-11-1966"});
+#line 58
  testRunner.And("the movieproducer is as", ((string)(null)), table8, "And ");
 #line hidden
             }

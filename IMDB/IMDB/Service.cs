@@ -2,6 +2,7 @@
 using IMDB.Repository.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace IMDB
@@ -25,7 +26,9 @@ namespace IMDB
             }
             
             DateTime date;
-            if (DateTime.TryParse(dob, out date))
+            if (DateTime.TryParseExact(dob, "dd-MM-yyyy",
+                       CultureInfo.InvariantCulture,
+                       DateTimeStyles.None, out date))
             {
                
                 if (date.Year > DateTime.Now.Year - 10)
@@ -52,7 +55,9 @@ namespace IMDB
                 return;
             }
             DateTime date;
-            if (DateTime.TryParse(dob, out date))
+            if (DateTime.TryParseExact(dob, "dd-MM-yyyy",
+                       CultureInfo.InvariantCulture,
+                       DateTimeStyles.None, out date))
             {
                 if (date.Year.CompareTo(DateTime.Today.Year) > 0)
                 {

@@ -145,10 +145,14 @@ namespace IMDB.Tests
         {
             //Adding actor
             _imdbService.AddActor("Matt Damon", "08-10-1970");
+            _imdbService.AddActor("Christian Bale", "30-01-1974");
+            _imdbService.AddActor("Dwayne Johnson", "02-05-1972");
+            _imdbService.AddActor("Jason Statham", "26-07-1967");
 
 
             //Adding producer
-            _imdbService.AddProducer("James Mangold", "08-10-1970");
+            _imdbService.AddProducer("James Mangold", "16-12-1963");
+            _imdbService.AddProducer("Chris Morgan", "24-11-1966");
 
 
         }
@@ -173,7 +177,8 @@ namespace IMDB.Tests
         [BeforeScenario("ListMovie")]
         public void AddSampleMovie()
         {
-            _imdbService.AddMovie("Ford V Ferrari", 2019, "blah blah", "1", 1);
+            _imdbService.AddMovie("Ford V Ferrari", 2019, "vroom vroom yay yay", "1 2", 1);
+            _imdbService.AddMovie("Hobbs and Shaw", 2019, "vroom vroom bang bang", "3 4", 2);
         }
 
     }
