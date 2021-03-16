@@ -30,6 +30,5 @@ namespace IMDB.Repository.Repositories
         {
             return _movieList.ToList();
         }
-
     }
 }

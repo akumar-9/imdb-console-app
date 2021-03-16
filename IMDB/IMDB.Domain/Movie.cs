@@ -19,14 +19,15 @@ namespace IMDB.Domain
         {
             Actors = new List<Person>();
         }
-        public Movie(string name, int year, string plot, List<Person> actors, Person producer) : this()
-        {
-            this.Name = name;
-            this.YearOfRelease = year;
-            this.Plot = plot;
-            this.Actors = actors;
-            this.Producer = producer;
-        }
+       //public Movie(string name, int year, string plot, List<Person> actors, Person producer) : this()
+       // {
+
+       //     Name = name;
+       //     YearOfRelease = year;
+       //     Plot = plot;
+       //     Actors = actors;
+       //     Producer = producer;
+       // }
 
         
     }

@@ -20,67 +20,57 @@ namespace IMDB
         public void AddActor(string name, string dob)
         {
             if (String.IsNullOrEmpty(name.Trim()) || String.IsNullOrEmpty(dob.Trim()))
-            {
-                Console.WriteLine("Please enter a valid name or DOB");
-                return;
-            }
-            
+                throw new Exception("Please enter a valid name or DOB");    
             DateTime date;
             if (DateTime.TryParseExact(dob, "dd-MM-yyyy",
                        CultureInfo.InvariantCulture,
                        DateTimeStyles.None, out date))
             {
-               
                 if (date.Year > DateTime.Now.Year - 10)
+                    throw new Exception("The Actor should be atleast 10 years old"); 
+                else
                 {
-                    Console.WriteLine("The Actor should be 10 years atleast ");
-                    return;
+                    var person = new Person
+                    {
+                        Name = name,
+                        DOB = date
+                    };
+                    _actorRepository.Add(person);
                 }
             }
             else
-            {
-                
-                Console.WriteLine("enter valid DOB");
-                return;
-            }
-            var person = new Person(name, dob);
-            _actorRepository.Add(person);
+                throw new Exception("Enter valid DOB in the DD-MM-YYYY format");
         }
 
         public void AddProducer(string name, string dob)
         {
             if (String.IsNullOrEmpty(name.Trim()) || String.IsNullOrEmpty(dob.Trim()))
-            {
-                 Console.WriteLine("Please enter a valid name or DOB");
-                return;
-            }
+                throw new Exception("Please enter a valid name or DOB");   
             DateTime date;
             if (DateTime.TryParseExact(dob, "dd-MM-yyyy",
                        CultureInfo.InvariantCulture,
                        DateTimeStyles.None, out date))
             {
-                if (date.Year.CompareTo(DateTime.Today.Year) > 0)
+                if (date.Year > DateTime.Now.Year - 21)
+                    throw new Exception("The Producer should be at least 21 years old");
+                else
                 {
-                    Console.WriteLine("YOB Cant be greater than current year ");
-                    return;
+                    var person = new Person
+                    {
+                        Name = name,
+                        DOB = date
+                    };
+                    _producerRepository.Add(person);
                 }
             }
             else
-            {
-                Console.WriteLine("enter valid DOB");
-                return;
-            }
-            var person = new Person(name, dob);
-            _producerRepository.Add(person);
+                throw new Exception("Enter valid DOB in the DD-MM-YYYY format");
+
         }
         public void AddMovie(string name, int year, string plot, string actorIds, int producerId)
         {
             if (String.IsNullOrEmpty(name.Trim()) || year < 1870 || String.IsNullOrEmpty(plot.Trim()))
-            {
-                Console.WriteLine(" Enter valid name, year or plot");
-                return;
-            }
-               
+                throw new Exception("Enter valid name, year or plot");
             else
             {
                 var movie = new Movie
@@ -109,27 +99,20 @@ namespace IMDB
             if (actors.Count > 0)
             {
                 if (ids.Length < 1)
-                {
-                    Console.WriteLine("There should be atleast one actor!!");
-                }
+                    throw new Exception("There should be atleast one actor!!");
                 else
                 {
                     foreach (var id in ids)
                     {
                         if (id > actors.Count)
-                        {
-                            Console.WriteLine("choose a valid input");
-                        }
-
-                        movieActors.Add(actors[id - 1]);
-
+                            throw new Exception("Choose a valid input");
+                        else
+                            movieActors.Add(actors[id - 1]);
                     }
                 }  
             }
             else
-            {
-                Console.WriteLine("Add Actors first!!");
-            }
+                throw new Exception("Add Actors first!!");
             return movieActors.ToList();
         }
         
@@ -148,41 +131,18 @@ namespace IMDB
         {
            return _movieRepository.Get();
         }
-        public void ListMovies()
+        public List<Movie> ListMovies()
         {
             var movies = GetMovies();
-            if(movies.Count < 1)
-            {
-                Console.WriteLine("Add Movies First");
-                return;
-            }
+            if (movies.Count < 1)
+                throw new Exception("Add Movies First");
             else
-            for (var i = 0; i < movies.Count; i++)
-            {
-                Console.WriteLine(i+1);
-                Console.WriteLine($"{movies[i].Name} ({movies[i].YearOfRelease})");
-                Console.WriteLine($"Plot - {movies[i].Plot}");
-                Console.Write("Actors - ");
-                foreach(var movieActor in movies[i].Actors)
-                    Console.Write(movieActor.Name + "  "); 
-                Console.WriteLine("\nProducers - " + movies[i].Producer.Name + " \n\n");
-            }
+                return movies;
         }
-        public void DeleteMovie()
+        public void DeleteMovie(int movieId)
         {
-            Console.WriteLine("Choose the movie to delete");
-            
-            ListMovies();
-            _movieRepository.Delete(Convert.ToInt32(Console.ReadLine()) - 1);
+            _movieRepository.Delete(movieId - 1);
         }
 
-        public void DisplayPersons(List<Person> personsList)
-        {
-
-           for (var i = 0; i < personsList.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {personsList[i].Name}");
-            }
-        }
     }
 }
